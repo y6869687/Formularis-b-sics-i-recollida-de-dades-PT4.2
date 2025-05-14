@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Votacions Mistral</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --c-bg: #0a0a0a;
+            --c-fg: #ffffff;
+            --c-accent: #00c8ff;
+            --c-accent-dark: #0099cc;
+            --c-fg-2: #e0e0e0;
+            --c-card-bg: #111111;
+            --c-border: #252525;
+
+            --radius: 8px;
+            --radius-lg: 12px;
+            --ts: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: "Inter", system-ui, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-fg);
+            line-height: 1.5;
+        }
+
+        .menu {
+            background: rgba(10, 10, 10, 0.9);
+            color: var(--c-fg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem clamp(1rem, 4vw, 2rem);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--c-border);
+        }
+
+        .botonVr {
+            color: var(--c-bg);
+            background: var(--c-fg);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--ts);
+            border: 1px solid transparent;
+        }
+
+        .botonVr:hover,
+        .botonVr:focus-visible {
+            background: var(--c-accent);
+            color: var(--c-bg);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 200, 255, 0.2);
+        }
+
+        .titulo {
+            margin-top: 6rem;
+            text-align: center;
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
+            color: var(--c-fg);
+        }
+
+        .containerLogo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .logo {
+            width: 250px;
+            border-radius: var(--radius);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .formulario {
+            margin: 3rem auto 5rem;
+            width: min(92%, 420px);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            color: var(--c-fg);
+            background: var(--c-card-bg);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--c-border);
+        }
+
+        .formulario p {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            color: var(--c-fg-2);
+        }
+
+        input[type="text"],
+        .select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--c-border);
+            border-radius: var(--radius);
+            background-color: #181818;
+            color: var(--c-fg);
+            font-size: 0.95rem;
+            transition: var(--ts);
+        }
+
+        input[type="text"]:focus-visible,
+        .select:focus-visible {
+            outline: none;
+            border-color: var(--c-accent);
+            background-color: #202020;
+            box-shadow: 0 0 0 3px rgba(0, 200, 255, 0.15);
+        }
+
+        .botoEnviar {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--c-accent);
+            color: #000;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--ts);
+            cursor: pointer;
+            align-self: flex-end;
+        }
+
+        .botoEnviar:hover,
+        .botoEnviar:focus-visible {
+            background-color: var(--c-accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 200, 255, 0.25);
+        }
+
+        #aviso {
+            color: #ff7676;
+            min-height: 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        table {
+            width: 90%;
+            margin: 3rem auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--c-card-bg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        th, td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--c-border);
+        }
+        
+        th {
+            background-color: #1a1a1a;
+            color: var(--c-accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: #1e1e1e;
+        }
+
+        tr:nth-child(even) {
+            background-color: #151515;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="menu">
+        <h1>Votacions realitzades</h1>
+        <div class="menuDerecha">
+            <a class="botonVr" href="/">Inici</a>
+        </div>
+    </nav>
+
+    <table>
+        <tr>
+            <th>DNI</th>
+            <th>Població</th>
+            <th>Valoració</th>
+        </tr>
+
+        {% for opcion in opciones %}
+        <tr>
+            <td>{{opcion[0]}}</td>
+            <td>{{opcion[1]}}</td>
+            <td>{{opcion[2]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+
+</html>
